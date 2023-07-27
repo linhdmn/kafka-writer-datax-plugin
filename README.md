@@ -2,7 +2,11 @@
   Kafka Writer Pluging for DataX
 </h1>
 <h3 align="center">
-  Author: Linh Doan | Co-Author: Dien Vo 
+  Author: Linh Doan
+</h3>
+
+<h3 align="center">
+  Contributor: Dien Vo 
 </h3>
 <p align="center">
   <a href="./LICENSE.md">
