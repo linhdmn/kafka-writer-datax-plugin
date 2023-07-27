@@ -6,10 +6,9 @@ import com.alibaba.datax.common.plugin.RecordReceiver;
 import com.alibaba.datax.common.spi.Writer;
 import com.alibaba.datax.common.util.Configuration;
 import com.alibaba.fastjson2.JSONObject;
-import org.apache.commons.lang3.StringUtils;
-
 import kafka.config.KafkaConfig;
 import kafka.producer.BaseKafkaProducer;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,7 +112,29 @@ public class KafkaWriter extends Writer {
                 while ((r = recordReceiver.getFromReader()) != null) {
                     JSONObject msg = new JSONObject();
                     for (int i = 0; i < r.getColumnNumber(); i++) {
-                        msg.put(this.column.get(i), r.getColumn(i).asString());
+                        switch (r.getColumn(i).getType()){
+                            case LONG:
+                                msg.put(this.column.get(i), r.getColumn(i).asLong());
+                                break;
+                            case BOOL:
+                                msg.put(this.column.get(i), r.getColumn(i).asBoolean());
+                                break;
+                            case DATE:
+                                msg.put(this.column.get(i), r.getColumn(i).asDate());
+                                break;
+                            case DOUBLE:
+                                msg.put(this.column.get(i), r.getColumn(i).asDouble());
+                                break;
+                            case BYTES:
+                                msg.put(this.column.get(i), r.getColumn(i).asBytes());
+                                break;
+                            case STRING:
+                                msg.put(this.column.get(i), r.getColumn(i).asString());
+                                break;
+                            default:
+                                throw new Exception(String.format("Invalid column type [%s]: %s",
+                                        this.column.get(i),r.getColumn(i).getType()));
+                        }
                     }
 
                     String raw = msg.toJSONString();
