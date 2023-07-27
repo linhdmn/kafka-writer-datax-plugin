@@ -1,5 +1,5 @@
 <h1 align="center">
-  Kafka Writer Pluging for DataX
+  Kafka Writer Plugin for DataX
 </h1>
 <h3 align="center">
   Author: Linh Doan
